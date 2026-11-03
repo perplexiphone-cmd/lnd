@@ -91,7 +91,7 @@ func NewVertexFromStr(v string) (Vertex, error) {
 // String returns a human readable version of the Vertex which is the
 // hex-encoding of the serialized compressed public key.
 func (v Vertex) String() string {
-	return fmt.Sprintf("%x", v[:])
+	return hex.EncodeToString(v[:])
 }
 
 // Record returns a TLV record that can be used to encode/decode a Vertex
