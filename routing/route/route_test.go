@@ -3,6 +3,7 @@ package route
 import (
 	"bytes"
 	"encoding/hex"
+	"fmt"
 	"testing"
 
 	"github.com/btcsuite/btcd/btcec/v2"
@@ -439,6 +440,31 @@ func makeVertex() Vertex {
 	}
 
 	return v
+}
+
+func TestVertexString(t *testing.T) {
+	t.Parallel()
+
+	vertex := makeVertex()
+	require.Equal(t, fmt.Sprintf("%x", vertex[:]), vertex.String())
+}
+
+func BenchmarkVertexString(b *testing.B) {
+	vertex := makeVertex()
+
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		_ = vertex.String()
+	}
+}
+
+func BenchmarkVertexStringFmt(b *testing.B) {
+	vertex := makeVertex()
+
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		_ = fmt.Sprintf("%x", vertex[:])
+	}
 }
 
 // TestVertexTLVEncodeDecode tests that we're able to properly encode and decode
